@@ -1,0 +1,76 @@
+{
+	"info": {
+		"_postman_id": "5605809a-5011-4953-bd15-d69c705c823a",
+		"name": "Load Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Check Login",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const c = pm.cookies.jar();\r",
+							"//c.unset(\"localhost\",\"AspNetCore.Identity.Application\");\r",
+							" c.clear(\"https://localhost\",function(error, cookie){\r",
+							" console.log(error);\r",
+							" console.log(cookie);\r",
+							"\r",
+							" });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "UserName",
+							"value": "{{UserId}}",
+							"type": "default"
+						},
+						{
+							"key": "Password",
+							"value": "123456",
+							"type": "default"
+						},
+						{
+							"key": "RememberMe",
+							"value": "true",
+							"type": "default"
+						},
+						{
+							"key": "CompanyId",
+							"value": "8DD0CD96-2989-44A8-B208-7712A55E6B24",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost:44357/Login",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"Login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
