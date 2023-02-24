@@ -1,0 +1,170 @@
+{
+	"info": {
+		"_postman_id": "767f1308-3f8a-4ca7-a9b4-de845e3efaa3",
+		"name": "Load Test ebuy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Check Login Copy",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.request.headers.add({key: \"RequestVerificationToken\", value: pm.variables.get(\"RequestVerificationToken\")});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// pm.test(\"The response has all properties\", () => {\r",
+							"//     //parse the response JSON and test three properties\r",
+							"//   //  const responseJson = pm.response.json();\r",
+							"//    console.log(pm.response.text());\r",
+							"// });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "_ga=GA1.1.1457781622.1673683010; StimulsoftWebViewerExportSettingsOpeningGroups=%7B%22SavingReportGroup%22%3Atrue%2C%22PageRangeGroup%22%3Atrue%2C%22SettingsGroup%22%3Afalse%7D; StimulsoftWebViewerExportSettingsPdf=%7B%22PageRange%22%3A%22All%22%2C%22ImageResolution%22%3A%22100%22%2C%22ImageCompressionMethod%22%3A%22Jpeg%22%2C%22ImageQuality%22%3A%220.75%22%2C%22EmbeddedFonts%22%3Atrue%2C%22ExportRtfTextAsImage%22%3Afalse%2C%22PdfACompliance%22%3Afalse%2C%22OpenAfterExport%22%3Afalse%2C%22AllowEditable%22%3A%22No%22%2C%22PasswordInputUser%22%3A%22%22%2C%22PasswordInputOwner%22%3A%22%22%2C%22KeyLength%22%3A%22Bit40%22%2C%22UseDigitalSignature%22%3Afalse%2C%22GetCertificateFromCryptoUI%22%3Afalse%2C%22UserAccessPrivileges%22%3A%22PrintDocument%2C%20ModifyContents%2C%20CopyTextAndGraphics%2C%20AddOrModifyTextAnnotations%22%7D; __RequestVerificationToken=Cmjr3u34gcF70IX-N4ZUagdAmGvH2pXNUJ2F-oYHPVFvFZh3D34n-LcS5oF6wLVPOPzkHAobaOcp382phjQTTffIo4PDCeyYimjRUfUKcYE1; _gid=GA1.1.1516502457.1677160215; ASP.NET_SessionId=gchszh0guzt5ymnauxpraz4t; Token=",
+						"type": "default",
+						"disabled": true
+					},
+					{
+						"key": "RequestVerificationToken",
+						"value": "7vM7PyOI54h3c2-gjQod_AfzhV7_qw6d7hyrSPjKFAL_Q58P7v3Kw36TUwM7zgHXrRk9tFcSrUltGhWjre8KuG1DJTRK91nCgsjjYqVNLY01",
+						"type": "default"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.9",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "default"
+						},
+						{
+							"key": "UserName",
+							"value": "{{UserID}}",
+							"type": "default"
+						},
+						{
+							"key": "Password",
+							"value": "{{UserPhone}}",
+							"type": "default"
+						},
+						{
+							"key": "Scope",
+							"value": "ONLINESALE",
+							"type": "default"
+						},
+						{
+							"key": "__RequestVerificationToken",
+							"value": "{{RequestVerificationToken}}",
+							"type": "default"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:22116/Account/Signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "22116",
+					"path": [
+						"Account",
+						"Signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetIndex",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"const $ = cheerio.load(pm.response.text())\r",
+							"\r",
+							"pm.test(\"it should return a title\", () => { \r",
+							"    pm.expect($('input[name=\"__RequestVerificationToken\"]').val()).to.not.be.empty \r",
+							"})\r",
+							"\r",
+							"pm.variables.set('RequestVerificationToken' , $('input[name=\"__RequestVerificationToken\"]').val())\r",
+							"\r",
+							"//pm.request.body.formdata.get(\"\")"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:22116/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "22116",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"const c = pm.cookies.jar();",
+					"//c.unset(\"localhost\",\"AspNetCore.Identity.Application\");",
+					" c.clear(\"https://ebuy.mvmco.ir\",function(error, cookie){",
+					" console.log(error);",
+					" console.log(cookie);",
+					"",
+					" });"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
